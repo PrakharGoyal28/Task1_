@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Task Form</title>
+</head>
+<body>
+  <h1>Auto-Fill Task Form</h1>
+  <form id="task-form">
+    <label>Name:</label><br>
+    <input type="text" id="name"><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" id="email"><br><br>
+
+    <label>Task Description:</label><br>
+    <input type="text" id="task"><br><br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    async function autofillForm() {
+      try {
+        const response = await fetch("http://localhost:5000/api/tasks");
+        const tasks = await response.json();
+
+        if (tasks.length > 0) {
+          document.querySelector('#task').value = tasks[0].task;
+        }
+
+        
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    }
+
+    document.getElementById("task-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Form submitted!");
+    });
+
+    window.onload = autofillForm;
+  </script>
+</body>
+</html>
